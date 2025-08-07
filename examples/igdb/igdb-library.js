@@ -8,13 +8,6 @@ app.library.collections = {};
  * Extend the default game class with the new fields' data getters
  */
 app.library.collections.game = class extends app.classes.api.igdb.game {
-  get developers() {
-    if (!this.data.involved_companies) return [];
-    return this.data.involved_companies
-      .filter(({ developer }) => developer)
-      .map(({ company }) => app.listItem.suggest(company.name, company.name));
-  }
-
   get franchises() {
     if (!this.data.franchises) return [];
     return this.data.franchises.map(({ name }) =>
@@ -22,21 +15,9 @@ app.library.collections.game = class extends app.classes.api.igdb.game {
     );
   }
 
-  get publishers() {
-    if (!this.data.involved_companies) return [];
-    return this.data.involved_companies
-      .filter(({ publisher }) => publisher)
-      .map(({ company }) => app.listItem.suggest(company.name, company.name));
-  }
-
   get rating() {
     const { total_rating } = this.data;
     return total_rating ? (total_rating / 10).toFixed(1) : undefined;
-  }
-
-  get themes() {
-    if (!this.data.themes) return [];
-    return this.data.themes.map(({ name }) => app.listItem.suggest(name, name));
   }
 };
 
